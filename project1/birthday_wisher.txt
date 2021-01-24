@@ -1,0 +1,43 @@
+#birthday wisher
+print("hi")
+import pandas as pd
+import datetime
+import smtplib #helps to send email
+
+
+GMAIL_ID = 'jayanti.hello500@gmail.com'
+GMAIL_PSWD = 'nepalopK142011'
+def sendEmail(to, sub, msg):
+    print(f"Email to {to} sent with subject: {sub} and message {msg}" )
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls()
+    s.login(GMAIL_ID, GMAIL_PSWD)
+    s.sendmail(GMAIL_ID, to, f"Subject: {sub}\n\n{msg}")
+    s.quit()
+    
+
+
+if __name__ == "__main__": #So when the interpreter runs a module, the __name__ variable will be set as  __main__ if the module that is being run is the main program.
+    sendEmail(GMAIL_ID,"subject"," test message")
+    exit()
+    df = pd.read_excel("data.xlsx")
+    today = datetime.datetime.now().strftime("%d-%m")   #%d = date %m = month
+    #print(today)
+    yearnow = datetime.datetime.now().strftime('%Y')
+    #print(yearnow)
+    
+    writeInd = []
+    for index, item in df.iterrows():
+        # print(index, item['Birthday'])
+        bday = item['Birthday'].strftime("%d-%m")
+        # print(bday) 
+        if(today == bday) and yearnow not in str(item['Year']):
+            sendEmail(item['Email'], "Happy Birthday", item['Dialouge']) 
+        writeInd.append(index)
+
+    #print(writeInd)
+    for i in writeInd:
+        yr = df.loc[i,'Year']
+        df.loc[i, 'Year'] = str(yr) + ', ' + str(yearnow)
+        #print(df)
+        #df.to_excel('data.xlsx',index= False)
