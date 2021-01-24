@@ -1,5 +1,5 @@
 #birthday wisher
-print("hi")
+
 import pandas as pd
 import datetime
 import smtplib #helps to send email
